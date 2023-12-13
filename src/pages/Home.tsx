@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel
 import './Home.css';
 import { useEffect, useState } from 'react';
 import UserService from '../sevices/UserService';
+import UserList from '../components/UserList/UserList';
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -21,8 +22,12 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const removeUser = (id: string) => {
+    const newUsers = users.filter((user) => user.login.uuid !== id)
+    setUsers(newUsers);
+  }
 
 
   return (
@@ -32,7 +37,7 @@ const Home: React.FC = () => {
           <IonTitle>100 Random Users</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      {/* <IonContent fullscreen>
           {
             users.map((user, index) => (
             <IonItemSliding key={user.login.uuid}>
@@ -40,7 +45,7 @@ const Home: React.FC = () => {
                   <IonLabel>{user.email}</IonLabel>
                 </IonItem>
               <IonItemOptions>
-                <IonItemOption color="danger">Remove</IonItemOption>
+                <IonItemOption color="danger" onClick={() => removeUser(user.login.uuid)}>Remove</IonItemOption>
               </IonItemOptions>
             </IonItemSliding>
             ))
@@ -53,7 +58,17 @@ const Home: React.FC = () => {
           >
             <IonInfiniteScrollContent></IonInfiniteScrollContent>
           </IonInfiniteScroll>
-      </IonContent>
+      </IonContent> */}
+      <UserList users={users} setUsers={setUsers}>
+        <IonInfiniteScroll
+              onIonInfinite={(ev) => {
+                fetchUsers(),
+                setTimeout(() => ev.target.complete(), 500);
+              }}
+            >
+              <IonInfiniteScrollContent></IonInfiniteScrollContent>
+          </IonInfiniteScroll>
+        </UserList>
     </IonPage>
   );
 };
