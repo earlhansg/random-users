@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonInfiniteScroll, IonInfiniteScrollContent, IonList } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonItemSliding, IonItemOptions, IonItemOption } from '@ionic/react';
 import './Home.css';
 import { useEffect, useState } from 'react';
 import UserService from '../sevices/UserService';
@@ -33,21 +33,21 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-          <IonList>
-            {users.map((item, index) => (
-              <IonItem key={item.login.uuid}>
-                <IonLabel>{item.email}</IonLabel>
-              </IonItem>
-            ))}
-            {/* <IonItem>
-                <IonLabel>Item1</IonLabel>
-            </IonItem>
-            <IonItem>
-                <IonLabel>Item1</IonLabel>
-            </IonItem> */}
-          </IonList>
+          {
+            users.map((user, index) => (
+            <IonItemSliding key={user.login.uuid}>
+                <IonItem>
+                  <IonLabel>{user.email}</IonLabel>
+                </IonItem>
+              <IonItemOptions>
+                <IonItemOption color="danger">Remove</IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+            ))
+          }
           <IonInfiniteScroll
             onIonInfinite={(ev) => {
+              fetchUsers(),
               setTimeout(() => ev.target.complete(), 500);
             }}
           >
