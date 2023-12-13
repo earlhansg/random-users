@@ -1,0 +1,7 @@
+{
+  "name": "randomUsers",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
