@@ -32,7 +32,6 @@ const UserList: React.FC<UserListProps> = ({
               <IonLabel>
                 {user.name.first} {user.name.last}
               </IonLabel>
-              {/* <IonLabel>{user.email}</IonLabel> */}
             </IonItem>
             <IonItemOptions>
               <IonItemOption

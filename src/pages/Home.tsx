@@ -1,13 +1,20 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonLabel, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonItemSliding, IonItemOptions, IonItemOption, IonLoading } from '@ionic/react';
-import './Home.css';
-import { useEffect, useState } from 'react';
-import UserService from '../sevices/UserService';
-import UserList from '../components/UserList/UserList';
+import {
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLoading,
+} from "@ionic/react";
+import "./Home.css";
+import { useEffect, useState } from "react";
+import UserService from "../sevices/UserService";
+import UserList from "../components/UserList/UserList";
 
 const Home: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   const fetchUsers = async () => {
     try {
@@ -31,18 +38,19 @@ const Home: React.FC = () => {
           <IonTitle>100 Random Users</IonTitle>
         </IonToolbar>
       </IonHeader>
-      {
-        !loading ? <UserList users={users} setUsers={setUsers}>
-        <IonInfiniteScroll
-              onIonInfinite={(ev) => {
-                fetchUsers(),
-                setTimeout(() => ev.target.complete(), 500);
-              }}
-            >
-              <IonInfiniteScrollContent></IonInfiniteScrollContent>
+      {!loading ? (
+        <UserList users={users} setUsers={setUsers}>
+          <IonInfiniteScroll
+            onIonInfinite={(ev) => {
+              fetchUsers(), setTimeout(() => ev.target.complete(), 500);
+            }}
+          >
+            <IonInfiniteScrollContent></IonInfiniteScrollContent>
           </IonInfiniteScroll>
-      </UserList> : <IonLoading message="Fetching users..." isOpen={true}/>
-      }
+        </UserList>
+      ) : (
+        <IonLoading message="Fetching users..." isOpen={true} />
+      )}
     </IonPage>
   );
 };
